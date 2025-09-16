@@ -56,6 +56,24 @@
         android:layout_marginBottom="16dp" />
 
     <Button
+        android:id="@+id/btnBookServices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Book Services"
+        android:backgroundTint="#1a2a6c"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnMyServiceBookings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Service Bookings"
+        android:backgroundTint="#1a2a6c"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
+
+    <Button
         android:id="@+id/btnLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

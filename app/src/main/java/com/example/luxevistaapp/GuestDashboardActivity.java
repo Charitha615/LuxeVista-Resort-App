@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class GuestDashboardActivity extends AppCompatActivity {
 
     private TextView tvWelcome, tvUserId;
-    private Button btnViewProfile, btnBookRoom, btnMyBookings, btnLogout;
+    private Button btnViewProfile, btnBookRoom, btnMyBookings, btnLogout,btnBookServices, btnMyServiceBookings;;
     private DatabaseHelper dbHelper;
     private SharedPreferences sharedPreferences;
     private int userId;
@@ -43,6 +43,8 @@ public class GuestDashboardActivity extends AppCompatActivity {
         btnBookRoom = findViewById(R.id.btnBookRoom);
         btnMyBookings = findViewById(R.id.btnMyBookings);
         btnLogout = findViewById(R.id.btnLogout);
+        btnBookServices = findViewById(R.id.btnBookServices);
+        btnMyServiceBookings = findViewById(R.id.btnMyServiceBookings);
 
         tvWelcome.setText("Welcome, " + username);
         tvUserId.setText("User ID: " + userId);
@@ -108,6 +110,22 @@ public class GuestDashboardActivity extends AppCompatActivity {
                 Intent intent = new Intent(GuestDashboardActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        btnBookServices.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GuestDashboardActivity.this, ServiceBookingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnMyServiceBookings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GuestDashboardActivity.this, UserServiceBookingActivity.class);
+                startActivity(intent);
             }
         });
     }

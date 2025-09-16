@@ -40,16 +40,17 @@
         android:id="@+id/btnManageBookings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manage Bookings"
+        android:text="Manage Room Bookings"
         android:backgroundTint="#1a2a6c"
         android:textColor="#FFFFFF"
         android:layout_marginBottom="16dp" />
 
+    <!-- Add this button to your admin dashboard layout -->
     <Button
-        android:id="@+id/btnViewBookings"
+        android:id="@+id/btnManageServiceBookings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="View Bookings"
+        android:text="Manage Service Bookings"
         android:backgroundTint="#1a2a6c"
         android:textColor="#FFFFFF"
         android:layout_marginBottom="16dp" />

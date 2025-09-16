@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
-    private Button btnManageRooms, btnManageServices, btnViewBookings, btnLogout,btnManageBookings;;
+    private Button btnManageRooms, btnManageServices, btnManageServiceBookings, btnLogout,btnManageBookings;;
     private TextView tvWelcome;
 
     @Override
@@ -26,7 +26,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private void initViews() {
         btnManageRooms = findViewById(R.id.btnManageRooms);
         btnManageServices = findViewById(R.id.btnManageServices);
-        btnViewBookings = findViewById(R.id.btnViewBookings);
+        btnManageServiceBookings = findViewById(R.id.btnManageServiceBookings);
         btnLogout = findViewById(R.id.btnLogout);
         tvWelcome = findViewById(R.id.tvWelcome);
         btnManageBookings = findViewById(R.id.btnManageBookings);
@@ -60,10 +60,12 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
-        btnViewBookings.setOnClickListener(new View.OnClickListener() {
+        // Add to setupClickListeners() method
+        btnManageServiceBookings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AdminDashboardActivity.this, "Booking view coming soon", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AdminDashboardActivity.this, AdminServiceBookingActivity.class);
+                startActivity(intent);
             }
         });
 
