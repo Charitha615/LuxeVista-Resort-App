@@ -1,84 +1,665 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/rounded_background">
+    android:fillViewport="true"
+    android:background="@drawable/background_gradient">
 
-    <TextView
-        android:id="@+id/tvWelcome"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome, Guest"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#1a2a6c"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvUserId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="User ID: 0"
-        android:textSize="16sp"
-        android:textColor="#666666"
-        android:gravity="center"
-        android:layout_marginBottom="40dp" />
+        <!-- Header Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_header"
+            android:layout_marginBottom="24dp">
 
-    <Button
-        android:id="@+id/btnViewProfile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View &amp; Edit Profile"
-        android:backgroundTint="#1a2a6c"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="16dp" />
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Welcome back,"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="normal"
+                android:layout_marginBottom="4dp" />
 
-    <Button
-        android:id="@+id/btnBookRoom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Book a Room"
-        android:backgroundTint="#1a2a6c"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="16dp" />
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Guest"
+                android:textSize="24sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
 
-    <Button
-        android:id="@+id/btnMyBookings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="My Bookings"
-        android:backgroundTint="#1a2a6c"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="16dp" />
+            <TextView
+                android:id="@+id/tvUserId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="User ID: 0"
+                android:textSize="14sp"
+                android:textColor="#CCFFFFFF"
+                android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnBookServices"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Book Services"
-        android:backgroundTint="#1a2a6c"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="16dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LuxeVista Resort - Where Luxury Meets Nature"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="italic" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/btnMyServiceBookings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="My Service Bookings"
-        android:backgroundTint="#1a2a6c"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="16dp" />
+        <!-- Quick Actions Grid -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quick Actions"
+            android:textSize="18sp"
+            android:textColor="#1a2a6c"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:backgroundTint="#FF0000"
-        android:textColor="#FFFFFF" />
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="3"
+            android:alignmentMode="alignMargins"
+            android:columnOrderPreserved="false"
+            android:layout_marginBottom="24dp"
+            android:padding="8dp">
 
-</LinearLayout>
+            <!-- Profile Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/cardProfile">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_profile"
+                        android:layout_marginBottom="8dp"
+                        app:tint="#1a2a6c" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Profile"
+                        android:textColor="#1a2a6c"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Book Room Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/cardBookRoom">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_bed"
+                        android:layout_marginBottom="8dp"
+                        app:tint="#1a2a6c" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Book Room"
+                        android:textColor="#1a2a6c"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- My Bookings Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/cardMyBookings">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_booking"
+                        android:layout_marginBottom="8dp"
+                        app:tint="#1a2a6c" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="My Bookings"
+                        android:textColor="#1a2a6c"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Book Services Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/cardBookServices">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_service"
+                        android:layout_marginBottom="8dp"
+                        app:tint="#1a2a6c" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Book Services"
+                        android:textColor="#1a2a6c"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Service Bookings Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/cardServiceBookings">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_service_booking"
+                        android:layout_marginBottom="8dp"
+                        app:tint="#1a2a6c" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Service Bookings"
+                        android:textColor="#1a2a6c"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Logout Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/cardLogout">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_logout"
+                        android:layout_marginBottom="8dp"
+                        app:tint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Logout"
+                        android:textColor="#FF0000"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </GridLayout>
+
+        <!-- Special Offers Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Special Offers"
+            android:textSize="18sp"
+            android:textColor="#1a2a6c"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:id="@+id/offersContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <!-- Offer 1 -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/offer_bg_1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="bottom"
+                            android:padding="16dp"
+                            android:background="@drawable/gradient_overlay">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SUMMER SPECIAL"
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:background="#BB1a2a6c"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="4dp"
+                                android:layout_marginBottom="8dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="30% OFF\nBeachfront Villas"
+                                android:textColor="#FFFFFF"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:lineSpacingMultiplier="1.2" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Valid until August 31"
+                                android:textColor="#CCFFFFFF"
+                                android:textSize="12sp"
+                                android:layout_marginTop="8dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Offer 2 -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/offer_bg_2">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="bottom"
+                            android:padding="16dp"
+                            android:background="@drawable/gradient_overlay">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="HONEYMOON PACKAGE"
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:background="#BB1a2a6c"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="4dp"
+                                android:layout_marginBottom="8dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Free Couples Spa\n&amp; Romantic Dinner"
+                                android:textColor="#FFFFFF"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:lineSpacingMultiplier="1.2" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="For 5+ night stays"
+                                android:textColor="#CCFFFFFF"
+                                android:textSize="12sp"
+                                android:layout_marginTop="8dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Offer 3 -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/offer_bg_3">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="bottom"
+                            android:padding="16dp"
+                            android:background="@drawable/gradient_overlay">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="EARLY BIRD"
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:background="#BB1a2a6c"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="4dp"
+                                android:layout_marginBottom="8dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="15% OFF\nBook 60 Days in Advance"
+                                android:textColor="#FFFFFF"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:lineSpacingMultiplier="1.2" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="All room types included"
+                                android:textColor="#CCFFFFFF"
+                                android:textSize="12sp"
+                                android:layout_marginTop="8dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Local Attractions Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Local Attractions"
+            android:textSize="18sp"
+            android:textColor="#1a2a6c"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="24dp">
+
+            <!-- Attraction 1 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/attraction_beach" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Crystal Bay Beach"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#1a2a6c"
+                            android:layout_marginBottom="4dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="White sandy beach with crystal clear waters. Perfect for swimming and sunbathing."
+                            android:textSize="12sp"
+                            android:textColor="#666666"
+                            android:maxLines="3" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="0.5 km from hotel"
+                            android:textSize="12sp"
+                            android:textColor="#1a2a6c"
+                            android:textStyle="italic"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Attraction 2 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/attraction_water_sports" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Aqua Adventures"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#1a2a6c"
+                            android:layout_marginBottom="4dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Jet skiing, parasailing, and snorkeling tours. Equipment rental available."
+                            android:textSize="12sp"
+                            android:textColor="#666666"
+                            android:maxLines="3" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="0.8 km from hotel"
+                            android:textSize="12sp"
+                            android:textColor="#1a2a6c"
+                            android:textStyle="italic"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Attraction 3 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/attraction_dining" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Seaside Grill &amp; Bar"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#1a2a6c"
+                            android:layout_marginBottom="4dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Fresh seafood with ocean views. Live music on weekends. Reservation recommended."
+                            android:textSize="12sp"
+                            android:textColor="#666666"
+                            android:maxLines="3" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="1.2 km from hotel"
+                            android:textSize="12sp"
+                            android:textColor="#1a2a6c"
+                            android:textStyle="italic"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
