@@ -38,6 +38,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ROOM_AVAILABLE = "room_available";
     private static final String COLUMN_ROOM_IMAGE = "room_image";
 
+
+    private static final String TABLE_BOOKINGS = "bookings";
+    private static final String COLUMN_BOOKING_ID = "_id";
+    private static final String COLUMN_BOOKING_USER_ID = "user_id";
+    private static final String COLUMN_BOOKING_ROOM_ID = "room_id";
+    private static final String COLUMN_BOOKING_CHECK_IN = "check_in";
+    private static final String COLUMN_BOOKING_CHECK_OUT = "check_out";
+    private static final String COLUMN_BOOKING_GUESTS = "guests";
+    private static final String COLUMN_BOOKING_TOTAL_PRICE = "total_price";
+    private static final String COLUMN_BOOKING_STATUS = "status";
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -67,6 +78,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_ROOM_IMAGE + " TEXT" + ")";
         db.execSQL(CREATE_ROOMS_TABLE);
 
+        String CREATE_BOOKINGS_TABLE = "CREATE TABLE " + TABLE_BOOKINGS + "("
+                + COLUMN_BOOKING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_BOOKING_USER_ID + " INTEGER,"
+                + COLUMN_BOOKING_ROOM_ID + " INTEGER,"
+                + COLUMN_BOOKING_CHECK_IN + " TEXT,"
+                + COLUMN_BOOKING_CHECK_OUT + " TEXT,"
+                + COLUMN_BOOKING_GUESTS + " INTEGER,"
+                + COLUMN_BOOKING_TOTAL_PRICE + " REAL,"
+                + COLUMN_BOOKING_STATUS + " TEXT,"
+                + "FOREIGN KEY(" + COLUMN_BOOKING_USER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + "),"
+                + "FOREIGN KEY(" + COLUMN_BOOKING_ROOM_ID + ") REFERENCES " + TABLE_ROOMS + "(" + COLUMN_ROOM_ID + ")" + ")";
+        db.execSQL(CREATE_BOOKINGS_TABLE);
+
         // Insert some sample rooms
         insertSampleRooms(db);
 
@@ -78,6 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Drop older tables if they exist
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ROOMS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKINGS);
 
         // Create tables again
         onCreate(db);
@@ -282,5 +307,69 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Log.e("DatabaseHelper", "Error converting base64 to bitmap: " + e.getMessage());
             return null;
         }
+    }
+
+    public long addBooking(int userId, int roomId, String checkIn, String checkOut,
+                           int guests, double totalPrice, String status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_BOOKING_USER_ID, userId);
+        values.put(COLUMN_BOOKING_ROOM_ID, roomId);
+        values.put(COLUMN_BOOKING_CHECK_IN, checkIn);
+        values.put(COLUMN_BOOKING_CHECK_OUT, checkOut);
+        values.put(COLUMN_BOOKING_GUESTS, guests);
+        values.put(COLUMN_BOOKING_TOTAL_PRICE, totalPrice);
+        values.put(COLUMN_BOOKING_STATUS, status);
+
+        long result = db.insert(TABLE_BOOKINGS, null, values);
+        db.close();
+        return result;
+    }
+
+    public Cursor getUserBookings(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT b.*, r.room_type, r.room_price FROM " + TABLE_BOOKINGS + " b " +
+                "INNER JOIN " + TABLE_ROOMS + " r ON b.room_id = r._id " +
+                "WHERE b.user_id = ? ORDER BY b.check_in DESC";
+        return db.rawQuery(query, new String[]{String.valueOf(userId)});
+    }
+
+    public int cancelBooking(int bookingId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_BOOKING_STATUS, "Cancelled");
+        return db.update(TABLE_BOOKINGS, values, COLUMN_BOOKING_ID + "=?",
+                new String[]{String.valueOf(bookingId)});
+    }
+
+    public int deleteUser(int userId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // First delete user's bookings
+        db.delete(TABLE_BOOKINGS, COLUMN_BOOKING_USER_ID + "=?",
+                new String[]{String.valueOf(userId)});
+        // Then delete user
+        return db.delete(TABLE_USERS, COLUMN_ID + "=?",
+                new String[]{String.valueOf(userId)});
+    }
+
+    public Cursor getUserById(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_USERS, null, COLUMN_ID + "=?",
+                new String[]{String.valueOf(userId)}, null, null, null);
+    }
+
+    public int updateUser(int userId, String username, String email, String contact,
+                          String address, String gender, String country) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USERNAME, username);
+        values.put(COLUMN_EMAIL, email);
+        values.put(COLUMN_CONTACT, contact);
+        values.put(COLUMN_ADDRESS, address);
+        values.put(COLUMN_GENDER, gender);
+        values.put(COLUMN_COUNTRY, country);
+
+        return db.update(TABLE_USERS, values, COLUMN_ID + "=?",
+                new String[]{String.valueOf(userId)});
     }
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/rounded_background">
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome, Guest"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#1a2a6c"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/tvUserId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="User ID: 0"
+        android:textSize="16sp"
+        android:textColor="#666666"
+        android:gravity="center"
+        android:layout_marginBottom="40dp" />
+
+    <Button
+        android:id="@+id/btnViewProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View &amp; Edit Profile"
+        android:backgroundTint="#1a2a6c"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnBookRoom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Book a Room"
+        android:backgroundTint="#1a2a6c"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnMyBookings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Bookings"
+        android:backgroundTint="#1a2a6c"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:backgroundTint="#FF0000"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>

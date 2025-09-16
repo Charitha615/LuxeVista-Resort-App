@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LuxeVistaApp">
         <activity
+            android:name=".RoomBookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GuestDashboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddEditRoomActivity"
             android:exported="false" />
         <activity
