@@ -6,24 +6,24 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
+import android.widget.AutoCompleteTextView;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 public class ProfileActivity extends AppCompatActivity {
 
-    private EditText etUsername, etEmail, etContact, etAddress, etPassword;
+    private TextInputEditText etUsername, etEmail, etContact, etAddress, etPassword;
     private RadioGroup rgGender;
-    private Spinner spCountry;
-    private Button btnUpdate, btnDeleteAccount;
+    private AutoCompleteTextView spCountry;
+    private com.google.android.material.button.MaterialButton btnUpdate, btnDeleteAccount;
+    private TextView tvEmail;
     private DatabaseHelper dbHelper;
     private SharedPreferences sharedPreferences;
     private int userId;
@@ -67,6 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
         spCountry = findViewById(R.id.spCountry);
         btnUpdate = findViewById(R.id.btnUpdate);
         btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
+        tvEmail = findViewById(R.id.tvEmail);
 
         // Password field should be disabled for viewing only
         etPassword.setEnabled(false);
@@ -74,8 +75,11 @@ public class ProfileActivity extends AppCompatActivity {
         rgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton radioButton = findViewById(checkedId);
-                selectedGender = radioButton.getText().toString();
+                if (checkedId == R.id.rbMale) {
+                    selectedGender = "Male";
+                } else if (checkedId == R.id.rbFemale) {
+                    selectedGender = "Female";
+                }
             }
         });
     }
@@ -85,35 +89,34 @@ public class ProfileActivity extends AppCompatActivity {
         String[] countries = getResources().getStringArray(R.array.countries_array);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, countries);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.dropdown_menu_popup_item, countries);
         spCountry.setAdapter(adapter);
 
-        // Set spinner selection listener
-        spCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedCountry = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                selectedCountry = "";
-            }
+        // Set item selection listener
+        spCountry.setOnItemClickListener((parent, view, position, id) -> {
+            selectedCountry = parent.getItemAtPosition(position).toString();
         });
     }
 
     private void loadUserData() {
         Cursor cursor = dbHelper.getUserById(userId);
         if (cursor != null && cursor.moveToFirst()) {
-            etUsername.setText(cursor.getString(cursor.getColumnIndexOrThrow("username")));
-            etEmail.setText(cursor.getString(cursor.getColumnIndexOrThrow("email")));
-            etContact.setText(cursor.getString(cursor.getColumnIndexOrThrow("contact")));
-            etAddress.setText(cursor.getString(cursor.getColumnIndexOrThrow("address")));
-            etPassword.setText(cursor.getString(cursor.getColumnIndexOrThrow("password")));
+            String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+            String email = cursor.getString(cursor.getColumnIndexOrThrow("email"));
+            String contact = cursor.getString(cursor.getColumnIndexOrThrow("contact"));
+            String address = cursor.getString(cursor.getColumnIndexOrThrow("address"));
+            String password = cursor.getString(cursor.getColumnIndexOrThrow("password"));
+            String gender = cursor.getString(cursor.getColumnIndexOrThrow("gender"));
+            String country = cursor.getString(cursor.getColumnIndexOrThrow("country"));
+
+            etUsername.setText(username);
+            etEmail.setText(email);
+            tvEmail.setText(email);
+            etContact.setText(contact);
+            etAddress.setText(address);
+            etPassword.setText(password);
 
             // Set gender
-            String gender = cursor.getString(cursor.getColumnIndexOrThrow("gender"));
             if (gender.equals("Male")) {
                 rgGender.check(R.id.rbMale);
             } else if (gender.equals("Female")) {
@@ -122,14 +125,9 @@ public class ProfileActivity extends AppCompatActivity {
             selectedGender = gender;
 
             // Set country
-            String country = cursor.getString(cursor.getColumnIndexOrThrow("country"));
             if (country != null && !country.isEmpty()) {
-                ArrayAdapter<String> adapter = (ArrayAdapter<String>) spCountry.getAdapter();
-                int position = adapter.getPosition(country);
-                if (position >= 0) {
-                    spCountry.setSelection(position);
-                    selectedCountry = country;
-                }
+                spCountry.setText(country, false);
+                selectedCountry = country;
             }
 
             cursor.close();
