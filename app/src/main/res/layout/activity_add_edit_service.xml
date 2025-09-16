@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Service Details"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#1a2a6c"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp" />
+
+        <EditText
+            android:id="@+id/etServiceName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Service Name"
+            android:background="@drawable/rounded_edittext"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etServiceDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Service Description"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:background="@drawable/rounded_edittext"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etServicePrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Price ($)"
+            android:inputType="numberDecimal"
+            android:background="@drawable/rounded_edittext"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Service Type"
+            android:textColor="#1a2a6c"
+            android:layout_marginBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/spServiceType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etServiceDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Duration (minutes)"
+            android:inputType="number"
+            android:background="@drawable/rounded_edittext"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <CheckBox
+            android:id="@+id/cbServiceAvailable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Available for booking"
+            android:textColor="#1a2a6c"
+            android:checked="true"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Service"
+            android:backgroundTint="#1a2a6c"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+</ScrollView>

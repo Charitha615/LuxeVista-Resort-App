@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
-    private Button btnManageRooms, btnManageServices, btnViewBookings, btnLogout;
+    private Button btnManageRooms, btnManageServices, btnViewBookings, btnLogout,btnManageBookings;;
     private TextView tvWelcome;
 
     @Override
@@ -29,6 +29,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
         btnViewBookings = findViewById(R.id.btnViewBookings);
         btnLogout = findViewById(R.id.btnLogout);
         tvWelcome = findViewById(R.id.tvWelcome);
+        btnManageBookings = findViewById(R.id.btnManageBookings);
+
 
         tvWelcome.setText("Welcome, Admin");
     }
@@ -42,10 +44,19 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
+        btnManageBookings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminDashboardActivity.this, AdminBookingActivity.class);
+                startActivity(intent);
+            }
+        });
+
         btnManageServices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AdminDashboardActivity.this, "Service management coming soon", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AdminDashboardActivity.this, ServiceManagementActivity.class);
+                startActivity(intent);
             }
         });
 
