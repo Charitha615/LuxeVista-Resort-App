@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/etRoomType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Room Type"
+            android:background="@drawable/rounded_edittext"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etRoomDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Room Description"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:background="@drawable/rounded_edittext"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etRoomPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Price per Night"
+            android:inputType="numberDecimal"
+            android:background="@drawable/rounded_edittext"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etRoomCapacity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Capacity"
+            android:inputType="number"
+            android:background="@drawable/rounded_edittext"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <CheckBox
+            android:id="@+id/cbRoomAvailable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Available for booking"
+            android:textColor="#1a2a6c"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Room"
+            android:backgroundTint="#1a2a6c"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+</ScrollView>
