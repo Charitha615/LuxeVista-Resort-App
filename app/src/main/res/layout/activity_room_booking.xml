@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Book a Room"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#1a2a6c"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Room Type"
+            android:textColor="#1a2a6c"
+            android:layout_marginBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/spRoomType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price per night: $0.00"
+            android:textColor="#1a2a6c"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etCheckIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Check-in Date (YYYY-MM-DD)"
+            android:background="@drawable/rounded_edittext"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etCheckOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Check-out Date (YYYY-MM-DD)"
+            android:background="@drawable/rounded_edittext"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etGuests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Number of Guests"
+            android:inputType="number"
+            android:background="@drawable/rounded_edittext"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnCalculate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Calculate Total"
+            android:backgroundTint="#1a2a6c"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/tvTotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total: $0.00 for 0 nights"
+            android:textSize="18sp"
+            android:textColor="#1a2a6c"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnBook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Book Now"
+            android:backgroundTint="#1a2a6c"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+</ScrollView>

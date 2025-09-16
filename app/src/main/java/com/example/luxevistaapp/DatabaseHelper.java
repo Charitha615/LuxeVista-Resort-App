@@ -38,6 +38,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ROOM_AVAILABLE = "room_available";
     private static final String COLUMN_ROOM_IMAGE = "room_image";
 
+
+    private static final String TABLE_BOOKINGS = "bookings";
+    private static final String COLUMN_BOOKING_ID = "_id";
+    private static final String COLUMN_BOOKING_USER_ID = "user_id";
+    private static final String COLUMN_BOOKING_ROOM_ID = "room_id";
+    private static final String COLUMN_BOOKING_CHECK_IN = "check_in";
+    private static final String COLUMN_BOOKING_CHECK_OUT = "check_out";
+    private static final String COLUMN_BOOKING_GUESTS = "guests";
+    private static final String COLUMN_BOOKING_TOTAL_PRICE = "total_price";
+    private static final String COLUMN_BOOKING_STATUS = "status";
+
+    private static final String TABLE_SERVICES = "services";
+    private static final String COLUMN_SERVICE_ID = "_id";
+    private static final String COLUMN_SERVICE_NAME = "service_name";
+    private static final String COLUMN_SERVICE_DESCRIPTION = "service_description";
+    private static final String COLUMN_SERVICE_PRICE = "service_price";
+    private static final String COLUMN_SERVICE_TYPE = "service_type";
+    private static final String COLUMN_SERVICE_AVAILABLE = "service_available";
+    private static final String COLUMN_SERVICE_DURATION = "service_duration";
+
+
+    private static final String TABLE_SERVICE_BOOKINGS = "service_bookings";
+    private static final String COLUMN_SERVICE_BOOKING_ID = "_id";
+    private static final String COLUMN_SB_USER_ID = "user_id";
+    private static final String COLUMN_SB_SERVICE_ID = "service_id";
+    private static final String COLUMN_SB_BOOKING_DATE = "booking_date";
+    private static final String COLUMN_SB_BOOKING_TIME = "booking_time";
+    private static final String COLUMN_SB_GUESTS = "guests";
+    private static final String COLUMN_SB_TOTAL_PRICE = "total_price";
+    private static final String COLUMN_SB_STATUS = "status";
+    private static final String COLUMN_SB_SPECIAL_REQUESTS = "special_requests";
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -67,6 +99,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_ROOM_IMAGE + " TEXT" + ")";
         db.execSQL(CREATE_ROOMS_TABLE);
 
+        String CREATE_BOOKINGS_TABLE = "CREATE TABLE " + TABLE_BOOKINGS + "("
+                + COLUMN_BOOKING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_BOOKING_USER_ID + " INTEGER,"
+                + COLUMN_BOOKING_ROOM_ID + " INTEGER,"
+                + COLUMN_BOOKING_CHECK_IN + " TEXT,"
+                + COLUMN_BOOKING_CHECK_OUT + " TEXT,"
+                + COLUMN_BOOKING_GUESTS + " INTEGER,"
+                + COLUMN_BOOKING_TOTAL_PRICE + " REAL,"
+                + COLUMN_BOOKING_STATUS + " TEXT,"
+                + "FOREIGN KEY(" + COLUMN_BOOKING_USER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + "),"
+                + "FOREIGN KEY(" + COLUMN_BOOKING_ROOM_ID + ") REFERENCES " + TABLE_ROOMS + "(" + COLUMN_ROOM_ID + ")" + ")";
+        db.execSQL(CREATE_BOOKINGS_TABLE);
+
+        String CREATE_SERVICES_TABLE = "CREATE TABLE " + TABLE_SERVICES + "("
+                + COLUMN_SERVICE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_SERVICE_NAME + " TEXT,"
+                + COLUMN_SERVICE_DESCRIPTION + " TEXT,"
+                + COLUMN_SERVICE_PRICE + " REAL,"
+                + COLUMN_SERVICE_TYPE + " TEXT,"
+                + COLUMN_SERVICE_AVAILABLE + " INTEGER,"
+                + COLUMN_SERVICE_DURATION + " INTEGER" + ")";
+        db.execSQL(CREATE_SERVICES_TABLE);
+
+        String CREATE_SERVICE_BOOKINGS_TABLE = "CREATE TABLE " + TABLE_SERVICE_BOOKINGS + "("
+                + COLUMN_SERVICE_BOOKING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_SB_USER_ID + " INTEGER,"
+                + COLUMN_SB_SERVICE_ID + " INTEGER,"
+                + COLUMN_SB_BOOKING_DATE + " TEXT,"
+                + COLUMN_SB_BOOKING_TIME + " TEXT,"
+                + COLUMN_SB_GUESTS + " INTEGER,"
+                + COLUMN_SB_TOTAL_PRICE + " REAL,"
+                + COLUMN_SB_STATUS + " TEXT,"
+                + COLUMN_SB_SPECIAL_REQUESTS + " TEXT,"
+                + "FOREIGN KEY(" + COLUMN_SB_USER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + "),"
+                + "FOREIGN KEY(" + COLUMN_SB_SERVICE_ID + ") REFERENCES " + TABLE_SERVICES + "(" + COLUMN_SERVICE_ID + ")" + ")";
+        db.execSQL(CREATE_SERVICE_BOOKINGS_TABLE);
+
         // Insert some sample rooms
         insertSampleRooms(db);
 
@@ -78,6 +147,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Drop older tables if they exist
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ROOMS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKINGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SERVICES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SERVICE_BOOKINGS);
 
         // Create tables again
         onCreate(db);
@@ -282,5 +354,285 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Log.e("DatabaseHelper", "Error converting base64 to bitmap: " + e.getMessage());
             return null;
         }
+    }
+
+    public long addBooking(int userId, int roomId, String checkIn, String checkOut,
+                           int guests, double totalPrice, String status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_BOOKING_USER_ID, userId);
+        values.put(COLUMN_BOOKING_ROOM_ID, roomId);
+        values.put(COLUMN_BOOKING_CHECK_IN, checkIn);
+        values.put(COLUMN_BOOKING_CHECK_OUT, checkOut);
+        values.put(COLUMN_BOOKING_GUESTS, guests);
+        values.put(COLUMN_BOOKING_TOTAL_PRICE, totalPrice);
+        values.put(COLUMN_BOOKING_STATUS, status);
+
+        long result = db.insert(TABLE_BOOKINGS, null, values);
+        db.close();
+        return result;
+    }
+
+    public Cursor getBookingById(int bookingId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT b.*, u.username, u.email, r.room_type, r.room_price " +
+                "FROM " + TABLE_BOOKINGS + " b " +
+                "INNER JOIN " + TABLE_USERS + " u ON b.user_id = u.id " +
+                "INNER JOIN " + TABLE_ROOMS + " r ON b.room_id = r._id " +
+                "WHERE b." + COLUMN_BOOKING_ID + " = ?";
+
+        return db.rawQuery(query, new String[]{String.valueOf(bookingId)});
+    }
+
+    public Cursor getUserBookings(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT b.*, r.room_type, r.room_price FROM " + TABLE_BOOKINGS + " b " +
+                "INNER JOIN " + TABLE_ROOMS + " r ON b.room_id = r._id " +
+                "WHERE b.user_id = ? ORDER BY b.check_in DESC";
+        return db.rawQuery(query, new String[]{String.valueOf(userId)});
+    }
+
+    public int cancelBooking(int bookingId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_BOOKING_STATUS, "Cancelled");
+        return db.update(TABLE_BOOKINGS, values, COLUMN_BOOKING_ID + "=?",
+                new String[]{String.valueOf(bookingId)});
+    }
+
+    public int deleteUser(int userId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // First delete user's bookings
+        db.delete(TABLE_BOOKINGS, COLUMN_BOOKING_USER_ID + "=?",
+                new String[]{String.valueOf(userId)});
+        // Then delete user
+        return db.delete(TABLE_USERS, COLUMN_ID + "=?",
+                new String[]{String.valueOf(userId)});
+    }
+
+    public Cursor getUserById(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_USERS, null, COLUMN_ID + "=?",
+                new String[]{String.valueOf(userId)}, null, null, null);
+    }
+
+    public int updateUser(int userId, String username, String email, String contact,
+                          String address, String gender, String country) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USERNAME, username);
+        values.put(COLUMN_EMAIL, email);
+        values.put(COLUMN_CONTACT, contact);
+        values.put(COLUMN_ADDRESS, address);
+        values.put(COLUMN_GENDER, gender);
+        values.put(COLUMN_COUNTRY, country);
+
+        return db.update(TABLE_USERS, values, COLUMN_ID + "=?",
+                new String[]{String.valueOf(userId)});
+    }
+
+
+    private void insertSampleServices(SQLiteDatabase db) {
+        try {
+            // Spa Services
+            ContentValues values1 = new ContentValues();
+            values1.put(COLUMN_SERVICE_NAME, "Luxury Spa Treatment");
+            values1.put(COLUMN_SERVICE_DESCRIPTION, "Full body massage with aromatherapy oils and hot stone therapy");
+            values1.put(COLUMN_SERVICE_PRICE, 120.00);
+            values1.put(COLUMN_SERVICE_TYPE, "Spa");
+            values1.put(COLUMN_SERVICE_AVAILABLE, 1);
+            values1.put(COLUMN_SERVICE_DURATION, 90);
+            db.insert(TABLE_SERVICES, null, values1);
+
+            ContentValues values2 = new ContentValues();
+            values2.put(COLUMN_SERVICE_NAME, "Couples Massage");
+            values2.put(COLUMN_SERVICE_DESCRIPTION, "Romantic side-by-side massage for couples");
+            values2.put(COLUMN_SERVICE_PRICE, 200.00);
+            values2.put(COLUMN_SERVICE_TYPE, "Spa");
+            values2.put(COLUMN_SERVICE_AVAILABLE, 1);
+            values2.put(COLUMN_SERVICE_DURATION, 120);
+            db.insert(TABLE_SERVICES, null, values2);
+
+            // Dining Services
+            ContentValues values3 = new ContentValues();
+            values3.put(COLUMN_SERVICE_NAME, "Beachfront Dinner");
+            values3.put(COLUMN_SERVICE_DESCRIPTION, "Private romantic dinner on the beach with personal chef");
+            values3.put(COLUMN_SERVICE_PRICE, 150.00);
+            values3.put(COLUMN_SERVICE_TYPE, "Dining");
+            values3.put(COLUMN_SERVICE_AVAILABLE, 1);
+            values3.put(COLUMN_SERVICE_DURATION, 120);
+            db.insert(TABLE_SERVICES, null, values3);
+
+            // Poolside Services
+            ContentValues values4 = new ContentValues();
+            values4.put(COLUMN_SERVICE_NAME, "Private Cabana Rental");
+            values4.put(COLUMN_SERVICE_DESCRIPTION, "Exclusive poolside cabana with butler service");
+            values4.put(COLUMN_SERVICE_PRICE, 75.00);
+            values4.put(COLUMN_SERVICE_TYPE, "Poolside");
+            values4.put(COLUMN_SERVICE_AVAILABLE, 1);
+            values4.put(COLUMN_SERVICE_DURATION, 240);
+            db.insert(TABLE_SERVICES, null, values4);
+
+            // Beach Tours
+            ContentValues values5 = new ContentValues();
+            values5.put(COLUMN_SERVICE_NAME, "Sunset Beach Tour");
+            values5.put(COLUMN_SERVICE_DESCRIPTION, "Guided tour to the best sunset viewing spots with champagne");
+            values5.put(COLUMN_SERVICE_PRICE, 50.00);
+            values5.put(COLUMN_SERVICE_TYPE, "Beach Tour");
+            values5.put(COLUMN_SERVICE_AVAILABLE, 1);
+            values5.put(COLUMN_SERVICE_DURATION, 90);
+            db.insert(TABLE_SERVICES, null, values5);
+
+            Log.d("DatabaseHelper", "Sample services inserted successfully");
+        } catch (Exception e) {
+            Log.e("DatabaseHelper", "Error inserting sample services: " + e.getMessage());
+        }
+    }
+
+    // Add service management methods
+    public long addService(String name, String description, double price,
+                           String type, boolean available, int duration) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_SERVICE_NAME, name);
+        values.put(COLUMN_SERVICE_DESCRIPTION, description);
+        values.put(COLUMN_SERVICE_PRICE, price);
+        values.put(COLUMN_SERVICE_TYPE, type);
+        values.put(COLUMN_SERVICE_AVAILABLE, available ? 1 : 0);
+        values.put(COLUMN_SERVICE_DURATION, duration);
+
+        long result = db.insert(TABLE_SERVICES, null, values);
+        db.close();
+        return result;
+    }
+
+    public Cursor getAllServices() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_SERVICES, null, null, null, null, null, COLUMN_SERVICE_TYPE + ", " + COLUMN_SERVICE_NAME);
+    }
+
+    public Cursor getService(int serviceId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_SERVICES, null, COLUMN_SERVICE_ID + "=?",
+                new String[]{String.valueOf(serviceId)}, null, null, null);
+    }
+
+    public int updateService(int serviceId, String name, String description, double price,
+                             String type, boolean available, int duration) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_SERVICE_NAME, name);
+        values.put(COLUMN_SERVICE_DESCRIPTION, description);
+        values.put(COLUMN_SERVICE_PRICE, price);
+        values.put(COLUMN_SERVICE_TYPE, type);
+        values.put(COLUMN_SERVICE_AVAILABLE, available ? 1 : 0);
+        values.put(COLUMN_SERVICE_DURATION, duration);
+
+        return db.update(TABLE_SERVICES, values, COLUMN_SERVICE_ID + "=?",
+                new String[]{String.valueOf(serviceId)});
+    }
+
+    public int deleteService(int serviceId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_SERVICES, COLUMN_SERVICE_ID + "=?",
+                new String[]{String.valueOf(serviceId)});
+    }
+
+    // Add method to get all bookings with user and room details
+    public Cursor getAllBookingsWithDetails() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT b.*, u.username, u.email, r.room_type " +
+                "FROM " + TABLE_BOOKINGS + " b " +
+                "INNER JOIN " + TABLE_USERS + " u ON b.user_id = u.id " +
+                "INNER JOIN " + TABLE_ROOMS + " r ON b.room_id = r._id " +
+                "ORDER BY b.check_in DESC";
+        return db.rawQuery(query, null);
+    }
+
+    public long addServiceBooking(int userId, int serviceId, String bookingDate, String bookingTime,
+                                  int guests, double totalPrice, String status, String specialRequests) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_SB_USER_ID, userId);
+        values.put(COLUMN_SB_SERVICE_ID, serviceId);
+        values.put(COLUMN_SB_BOOKING_DATE, bookingDate);
+        values.put(COLUMN_SB_BOOKING_TIME, bookingTime);
+        values.put(COLUMN_SB_GUESTS, guests);
+        values.put(COLUMN_SB_TOTAL_PRICE, totalPrice);
+        values.put(COLUMN_SB_STATUS, status);
+        values.put(COLUMN_SB_SPECIAL_REQUESTS, specialRequests);
+
+        long result = db.insert(TABLE_SERVICE_BOOKINGS, null, values);
+        db.close();
+        return result;
+    }
+
+    public Cursor getUserServiceBookings(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT sb.*, s.service_name, s.service_type, s.service_price FROM " + TABLE_SERVICE_BOOKINGS + " sb " +
+                "INNER JOIN " + TABLE_SERVICES + " s ON sb.service_id = s._id " +
+                "WHERE sb.user_id = ? ORDER BY sb.booking_date DESC, sb.booking_time DESC";
+        return db.rawQuery(query, new String[]{String.valueOf(userId)});
+    }
+
+    public Cursor getAllServiceBookingsWithDetails() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT sb.*, u.username, u.email, s.service_name, s.service_type " +
+                "FROM " + TABLE_SERVICE_BOOKINGS + " sb " +
+                "INNER JOIN " + TABLE_USERS + " u ON sb.user_id = u.id " +
+                "INNER JOIN " + TABLE_SERVICES + " s ON sb.service_id = s._id " +
+                "ORDER BY sb.booking_date DESC, sb.booking_time DESC";
+        return db.rawQuery(query, null);
+    }
+
+//    public Cursor getServiceBooking(int bookingId) {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        return db.query(TABLE_SERVICE_BOOKINGS, null, COLUMN_SERVICE_BOOKING_ID + "=?",
+//                new String[]{String.valueOf(bookingId)}, null, null, null);
+//    }
+
+    public int updateServiceBooking(int bookingId, String bookingDate, String bookingTime,
+                                    int guests, String specialRequests) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_SB_BOOKING_DATE, bookingDate);
+        values.put(COLUMN_SB_BOOKING_TIME, bookingTime);
+        values.put(COLUMN_SB_GUESTS, guests);
+        values.put(COLUMN_SB_SPECIAL_REQUESTS, specialRequests);
+
+        return db.update(TABLE_SERVICE_BOOKINGS, values, COLUMN_SERVICE_BOOKING_ID + "=?",
+                new String[]{String.valueOf(bookingId)});
+    }
+
+    public int cancelServiceBooking(int bookingId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_SB_STATUS, "Cancelled");
+        return db.update(TABLE_SERVICE_BOOKINGS, values, COLUMN_SERVICE_BOOKING_ID + "=?",
+                new String[]{String.valueOf(bookingId)});
+    }
+
+    public int deleteServiceBooking(int bookingId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_SERVICE_BOOKINGS, COLUMN_SERVICE_BOOKING_ID + "=?",
+                new String[]{String.valueOf(bookingId)});
+    }
+
+    // Add method to get available time slots for a service on a specific date
+    public Cursor getAvailableTimeSlots(int serviceId, String date) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT booking_time FROM " + TABLE_SERVICE_BOOKINGS +
+                " WHERE service_id = ? AND booking_date = ? AND status != 'Cancelled'";
+        return db.rawQuery(query, new String[]{String.valueOf(serviceId), date});
+    }
+
+    public Cursor getServiceBooking(int bookingId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT sb.*, u.username, s.service_name FROM " + TABLE_SERVICE_BOOKINGS + " sb " +
+                "INNER JOIN " + TABLE_USERS + " u ON sb.user_id = u.id " +
+                "INNER JOIN " + TABLE_SERVICES + " s ON sb.service_id = s._id " +
+                "WHERE sb._id = ?";
+        return db.rawQuery(query, new String[]{String.valueOf(bookingId)});
     }
 }

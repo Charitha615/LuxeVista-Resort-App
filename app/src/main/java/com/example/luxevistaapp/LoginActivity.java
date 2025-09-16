@@ -85,15 +85,20 @@ public class LoginActivity extends AppCompatActivity {
 
         // Regular user login
         Cursor cursor = dbHelper.getUser(email, password);
-        if (cursor != null && cursor.getCount() > 0) {
-            // Save login state
+        if (cursor != null && cursor.moveToFirst()) {
+            int userId = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+            String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+
+            // Save login state and user info
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("isLoggedIn", true);
             editor.putBoolean("isAdmin", false);
+            editor.putInt("userId", userId);
+            editor.putString("username", username);
             editor.apply();
 
             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            Intent intent = new Intent(LoginActivity.this, GuestDashboardActivity.class);
             startActivity(intent);
             finish();
         } else {

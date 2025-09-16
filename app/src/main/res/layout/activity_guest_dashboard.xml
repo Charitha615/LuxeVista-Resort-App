@@ -10,47 +10,65 @@
         android:id="@+id/tvWelcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome, Admin"
+        android:text="Welcome, Guest"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="#1a2a6c"
         android:gravity="center"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/tvUserId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="User ID: 0"
+        android:textSize="16sp"
+        android:textColor="#666666"
+        android:gravity="center"
         android:layout_marginBottom="40dp" />
 
     <Button
-        android:id="@+id/btnManageRooms"
+        android:id="@+id/btnViewProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manage Rooms"
+        android:text="View &amp; Edit Profile"
         android:backgroundTint="#1a2a6c"
         android:textColor="#FFFFFF"
         android:layout_marginBottom="16dp" />
 
     <Button
-        android:id="@+id/btnManageServices"
+        android:id="@+id/btnBookRoom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manage Services"
+        android:text="Book a Room"
         android:backgroundTint="#1a2a6c"
         android:textColor="#FFFFFF"
         android:layout_marginBottom="16dp" />
 
     <Button
-        android:id="@+id/btnManageBookings"
+        android:id="@+id/btnMyBookings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manage Room Bookings"
+        android:text="My Bookings"
         android:backgroundTint="#1a2a6c"
         android:textColor="#FFFFFF"
         android:layout_marginBottom="16dp" />
 
-    <!-- Add this button to your admin dashboard layout -->
     <Button
-        android:id="@+id/btnManageServiceBookings"
+        android:id="@+id/btnBookServices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manage Service Bookings"
+        android:text="Book Services"
+        android:backgroundTint="#1a2a6c"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnMyServiceBookings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Service Bookings"
         android:backgroundTint="#1a2a6c"
         android:textColor="#FFFFFF"
         android:layout_marginBottom="16dp" />
