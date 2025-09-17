@@ -6,14 +6,14 @@
     android:padding="16dp"
     android:background="?android:attr/selectableItemBackground">
 
-    <TextView
-        android:id="@+id/tvUserName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Guest Name"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="#1a2a6c" />
+<!--    <TextView-->
+<!--        android:id="@+id/tvUserName"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Guest Name"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:textColor="#1a2a6c" />-->
 
     <TextView
         android:id="@+id/tvServiceName"
@@ -61,7 +61,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="$0.00"
+            android:text="LKR 0.00"
             android:textSize="14sp"
             android:textColor="#666666" />
 

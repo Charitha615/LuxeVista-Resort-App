@@ -3,6 +3,8 @@ package com.example.luxevistaapp;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -48,6 +50,20 @@ public class ServiceBookingActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         etBookingDate.setText(sdf.format(new Date()));
 
+        // Add text change listener to calculate total price
+        etGuests.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                calculateTotalPrice();
+            }
+        });
+
         btnCheckAvailability.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +91,21 @@ public class ServiceBookingActivity extends AppCompatActivity {
         tvTotalPrice = findViewById(R.id.tvTotalPrice);
         btnCheckAvailability = findViewById(R.id.btnCheckAvailability);
         btnBookService = findViewById(R.id.btnBookService);
+    }
+
+    private void calculateTotalPrice() {
+        String guestsStr = etGuests.getText().toString().trim();
+        if (!guestsStr.isEmpty()) {
+            try {
+                int guests = Integer.parseInt(guestsStr);
+                double totalPrice = servicePrice * guests;
+                tvTotalPrice.setText(String.format(Locale.getDefault(), "Total: LKR %.2f", totalPrice));
+            } catch (NumberFormatException e) {
+                tvTotalPrice.setText("Total: LKR 0.00");
+            }
+        } else {
+            tvTotalPrice.setText("Total: LKR 0.00");
+        }
     }
 
     private void setupServiceTypeSpinner() {
@@ -131,7 +162,8 @@ public class ServiceBookingActivity extends AppCompatActivity {
                     selectedServiceId = serviceIds.get(position);
                     servicePrice = servicePrices.get(position);
                     tvServiceDescription.setText(serviceDescriptions.get(position));
-                    tvServicePrice.setText("Price: $" + servicePrice);
+                    tvServicePrice.setText(String.format(Locale.getDefault(), "Price: $%.2f", servicePrice));
+                    calculateTotalPrice(); // Update total when service changes
                 }
 
                 @Override

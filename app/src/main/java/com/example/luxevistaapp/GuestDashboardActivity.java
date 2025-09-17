@@ -39,7 +39,7 @@ public class GuestDashboardActivity extends AppCompatActivity {
     private void initViews() {
         tvWelcome = findViewById(R.id.tvWelcome);
         tvUsername = findViewById(R.id.tvUsername);
-        tvUserId = findViewById(R.id.tvUserId);
+//        tvUserId = findViewById(R.id.tvUserId);
 
         cardProfile = findViewById(R.id.cardProfile);
         cardBookRoom = findViewById(R.id.cardBookRoom);
@@ -49,7 +49,7 @@ public class GuestDashboardActivity extends AppCompatActivity {
         cardLogout = findViewById(R.id.cardLogout);
 
         tvUsername.setText(username);
-        tvUserId.setText("User ID: " + userId);
+//        tvUserId.setText("User ID: " + userId);
     }
 
     private void setupClickListeners() {
