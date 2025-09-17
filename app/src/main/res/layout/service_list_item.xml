@@ -31,11 +31,18 @@
         android:layout_marginTop="8dp">
 
         <TextView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:text="LKR"
+            android:textColor="#666666"
+            android:textSize="14sp" />
+
+        <TextView
             android:id="@+id/tvServicePrice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="$0.00"
+            android:text="0.00"
             android:textSize="14sp"
             android:textColor="#666666" />
 
@@ -44,7 +51,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="0 mins"
+            android:text="0"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:gravity="end" />
+
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:text="mins"
             android:textSize="14sp"
             android:textColor="#666666"
             android:gravity="end" />
