@@ -90,7 +90,7 @@ public class RoomManagementActivity extends AppCompatActivity {
         Cursor cursor = dbHelper.getAllRooms();
 
         // Use _id instead of room_id for the adapter
-        String[] from = new String[]{"_id", "room_type", "room_price", "room_capacity"};
+        String[] from = new String[]{ "room_type", "room_price", "room_capacity"};
         int[] to = new int[]{ R.id.tvRoomType, R.id.tvRoomPrice, R.id.tvRoomCapacity};
 
         adapter = new SimpleCursorAdapter(this, R.layout.room_list_item, cursor, from, to, 0);

@@ -145,16 +145,16 @@
                     app:strokeColor="#1a2a6c"
                     app:strokeWidth="2dp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Admin? Use: admin@gmail.com / admin"
-                    android:textSize="12sp"
-                    android:textColor="#666666"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:background="@drawable/admin_hint_background"
-                    android:layout_marginBottom="24dp" />
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Admin? Use: admin@gmail.com / admin"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="#666666"-->
+<!--                    android:gravity="center"-->
+<!--                    android:padding="8dp"-->
+<!--                    android:background="@drawable/admin_hint_background"-->
+<!--                    android:layout_marginBottom="24dp" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"

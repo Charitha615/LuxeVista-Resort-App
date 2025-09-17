@@ -99,6 +99,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_ROOM_IMAGE + " TEXT" + ")";
         db.execSQL(CREATE_ROOMS_TABLE);
 
+
+        // Create booking table
         String CREATE_BOOKINGS_TABLE = "CREATE TABLE " + TABLE_BOOKINGS + "("
                 + COLUMN_BOOKING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_BOOKING_USER_ID + " INTEGER,"
@@ -112,6 +114,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY(" + COLUMN_BOOKING_ROOM_ID + ") REFERENCES " + TABLE_ROOMS + "(" + COLUMN_ROOM_ID + ")" + ")";
         db.execSQL(CREATE_BOOKINGS_TABLE);
 
+
+        // Create service table
         String CREATE_SERVICES_TABLE = "CREATE TABLE " + TABLE_SERVICES + "("
                 + COLUMN_SERVICE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_SERVICE_NAME + " TEXT,"
@@ -122,6 +126,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_SERVICE_DURATION + " INTEGER" + ")";
         db.execSQL(CREATE_SERVICES_TABLE);
 
+
+        // Create service booking table
         String CREATE_SERVICE_BOOKINGS_TABLE = "CREATE TABLE " + TABLE_SERVICE_BOOKINGS + "("
                 + COLUMN_SERVICE_BOOKING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_SB_USER_ID + " INTEGER,"
