@@ -2,6 +2,7 @@ package com.example.luxevistaapp;
 
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -77,7 +78,17 @@ public class RoomBookingActivity extends AppCompatActivity {
     }
 
     private void loadAvailableRooms() {
-        Cursor cursor = dbHelper.getAllRooms();
+//        Cursor cursor = dbHelper.getAllRooms();
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.query(
+                "rooms",
+                null,
+                "room_available = ?",
+                new String[]{"1"},
+                null, null, null
+        );
+
         if (cursor != null && cursor.getCount() > 0) {
             String[] roomNames = new String[cursor.getCount()];
             final int[] roomIds = new int[cursor.getCount()];
