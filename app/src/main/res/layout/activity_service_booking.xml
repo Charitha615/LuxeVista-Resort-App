@@ -62,7 +62,7 @@
             android:id="@+id/tvServicePrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Price: $0.00"
+            android:text="Price: LKR0.00"
             android:textColor="#1a2a6c"
             android:layout_marginBottom="16dp" />
 

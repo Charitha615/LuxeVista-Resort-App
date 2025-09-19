@@ -641,4 +641,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "WHERE sb._id = ?";
         return db.rawQuery(query, new String[]{String.valueOf(bookingId)});
     }
+
+    public Cursor getAvailableServices() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(
+                "services",
+                null,
+                "service_available = ?",
+                new String[]{"1"},
+                null, null, "service_name"
+        );
+    }
+
+    public Cursor getAvailableServicesByType(String serviceType) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(
+                "services",
+                null,
+                "service_type = ? AND service_available = ?",
+                new String[]{serviceType, "1"},
+                null, null, "service_name"
+        );
+    }
 }

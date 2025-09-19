@@ -131,10 +131,11 @@ public class ServiceBookingActivity extends AppCompatActivity {
     private void loadServices(String serviceType) {
         Cursor cursor;
         if (serviceType == null) {
-            cursor = dbHelper.getAllServices();
+            // Get all available services
+            cursor = dbHelper.getAvailableServices();
         } else {
-            cursor = dbHelper.getReadableDatabase().query("services", null,
-                    "service_type=?", new String[]{serviceType}, null, null, "service_name");
+            // Get available services by type
+            cursor = dbHelper.getAvailableServicesByType(serviceType);
         }
 
         if (cursor != null && cursor.getCount() > 0) {
@@ -162,7 +163,7 @@ public class ServiceBookingActivity extends AppCompatActivity {
                     selectedServiceId = serviceIds.get(position);
                     servicePrice = servicePrices.get(position);
                     tvServiceDescription.setText(serviceDescriptions.get(position));
-                    tvServicePrice.setText(String.format(Locale.getDefault(), "Price: $%.2f", servicePrice));
+                    tvServicePrice.setText(String.format(Locale.getDefault(), "Price: LKR%.2f", servicePrice));
                     calculateTotalPrice(); // Update total when service changes
                 }
 
@@ -170,10 +171,23 @@ public class ServiceBookingActivity extends AppCompatActivity {
                 public void onNothingSelected(AdapterView<?> parent) {
                 }
             });
+        } else {
+            // Clear the service spinner if no services are available
+            spService.setAdapter(null);
+            tvServiceDescription.setText("No services available");
+            tvServicePrice.setText("Price: LKR0.00");
+            tvTotalPrice.setText("Total: LKR 0.00");
+            Toast.makeText(this, "No services available for this category", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void checkAvailability() {
+        // First check if a service is selected
+        if (spService.getSelectedItem() == null) {
+            Toast.makeText(this, "Please select a service first", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String date = etBookingDate.getText().toString().trim();
         if (date.isEmpty()) {
             Toast.makeText(this, "Please select a date", Toast.LENGTH_SHORT).show();
@@ -211,6 +225,12 @@ public class ServiceBookingActivity extends AppCompatActivity {
     }
 
     private void bookService() {
+        // Check if a service is selected
+        if (spService.getSelectedItem() == null) {
+            Toast.makeText(this, "Please select a service", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String date = etBookingDate.getText().toString().trim();
         String time = spTimeSlot.getSelectedItem() != null ? spTimeSlot.getSelectedItem().toString() : "";
         String guestsStr = etGuests.getText().toString().trim();
